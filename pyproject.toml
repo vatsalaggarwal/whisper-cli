@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "whisper-cli"
+version = "0.0.1"
+description = "A CLI for transcribing/translating audio/video using whisper"
+authors = ["Vatsal <vatsalaggarwal@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "whisper_cli"}]
+
+[tool.poetry.scripts]
+whisper = "whisper_cli.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = {extras = ["all"], version = "^0.7.0"}
+openai = "^0.27.0"
+toml = "^0.10.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
