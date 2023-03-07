@@ -11,19 +11,19 @@ pip install whisper-cli
 To get started with Whisper CLI, you'll need to set your OpenAI API key. You can do this using the following command:
 
 ```sh
-whisper set-key <openai_api_key>
+whisper key set <openai_api_key>
 ```
 
 This will set the API key for the default environment. If you want to use a different API key, you can set up an alternative environment by running:
 
 ```sh
-whisper set-key <openai_api_key> --env <env_name>
+whisper key set <openai_api_key> --env <env_name>
 ```
 
 To activate an alternative environment, run:
 
 ```sh
-whisper activate-env <env_name>
+whisper env activate <env_name>
 ```
 
 ## Usage

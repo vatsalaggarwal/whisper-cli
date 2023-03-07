@@ -1,34 +1,13 @@
-import typer
-import os
-import toml
-
 import openai
+import typer
 from rich import print
 
-user_config_path: str = os.environ.get("OPENAI_CONFIG_PATH") or os.path.expanduser(
-    "~/.openai.toml"
-)
+import env
+from env import _read_user_config
 
-app = typer.Typer()
-
-
-def _read_user_config():
-    if os.path.exists(user_config_path):
-        with open(user_config_path) as f:
-            return toml.load(f)
-    else:
-        return {}
-
-
-def _write_user_config(user_config):
-    with open(user_config_path, "w") as f:
-        toml.dump(user_config, f)
-
-
-def _store_user_config(new_settings, env="default"):
-    user_config = _read_user_config()
-    user_config.setdefault(env, {}).update(**new_settings)
-    _write_user_config(user_config)
+app = typer.Typer(no_args_is_help=True)
+app.add_typer(env.env_app)
+app.add_typer(env.key_app)
 
 
 def get_file_type(file_name: str) -> str:
@@ -60,43 +39,6 @@ def get_file_content(file_name: str) -> str:
         raise ValueError("File type not supported.")
 
     return open(file_name, "rb")
-
-
-@app.command()
-def set_key(api_key: str, env: str = "default"):
-    """Save OpenAI key."""
-    _store_user_config({"api_key": api_key}, env=env)
-
-
-@app.command()
-def activate_env(env: str = "default"):
-    """Activate environment."""
-    config = _read_user_config()
-
-    if env not in config:
-        raise ValueError(
-            f"Environment {env} not found. Create it using `whisper set-key`."
-        )
-
-    for key, value in config.items():
-        if "active" in value:
-            del config[key]["active"]
-    config[env]["active"] = True
-    _write_user_config(config)
-
-
-@app.command()
-def list_envs():
-    """List all environments."""
-    config = _read_user_config()
-
-    # print config.keys each on a new line
-    print("[bold]Environments[/bold]")
-    for key in config.keys():
-        if "active" in config[key]:
-            print(f" * [bold red]\[active][/bold red] {key}")
-        else:
-            print(f" * {key}")
 
 
 def get_api_key(env: str = "default") -> str:
