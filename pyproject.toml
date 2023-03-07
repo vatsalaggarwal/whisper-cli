@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "whisper-cli"
-version = "0.0.2"
+version = "0.0.3"
 description = "A command-line interface for transcribing and translating audio using OpenAI's Whisper API"
 authors = ["Vatsal <vatsalaggarwal@gmail.com>"]
 license = "MIT"
