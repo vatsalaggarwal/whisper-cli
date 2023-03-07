@@ -2,8 +2,8 @@ import openai
 import typer
 from rich import print
 
-import env
-from env import _read_user_config
+import whisper_cli.env as env
+from whisper_cli.env import _read_user_config
 
 app = typer.Typer(no_args_is_help=True)
 app.add_typer(env.env_app)
