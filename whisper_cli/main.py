@@ -1,4 +1,5 @@
 import openai
+from typing import Optional
 import typer
 from rich import print
 
@@ -15,7 +16,7 @@ def get_file_type(file_name: str) -> str:
     return file_name.split(".")[-1]
 
 
-def _check_response_format(response_format: str | None):
+def _check_response_format(response_format: Optional[str]):
     if response_format is None:
         return None
     elif response_format in ["json", "srt", "verbose_json", "vtt"]:
@@ -53,7 +54,7 @@ def get_api_key(env: str = "default") -> str:
     )
 
 
-def show_result(result, response_format: str | None):
+def show_result(result, response_format: Optional[str]):
     """Show result."""
     if response_format is None:
         response_format = "json"
@@ -68,10 +69,10 @@ def show_result(result, response_format: str | None):
 def transcribe(
     file_name: str,
     model: str = "whisper-1",
-    prompt: str | None = None,
-    response_format: str | None = None,
+    prompt: Optional[str] = None,
+    response_format: Optional[str] = None,
     temperature: float = 0,
-    language: str | None = None,
+    language: Optional[str] = None,
 ):
     """Transcribe audio file using whisper."""
     openai.api_key = get_api_key()
@@ -93,8 +94,8 @@ def transcribe(
 def translate(
     file_name: str,
     model: str = "whisper-1",
-    prompt: str | None = None,
-    response_format: str | None = None,
+    prompt: Optional[str] = None,
+    response_format: Optional[str] = None,
     temperature: float = 0,
 ):
     """Translate audio file using whisper."""
